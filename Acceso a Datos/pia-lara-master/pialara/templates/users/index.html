@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<h1 class="m-2 text-center">Lista de usuarios</h1>
+
+<a href="/users/create" class="btn btn-success m-2">
+  <i class="bi bi-plus-square"></i>&nbsp;&nbsp;&nbsp;Añadir Usuario</a>
+
+  {% if current_user.rol == "admin" %}
+
+    <a href="#" class="btn btn-success m-2" onclick="filtrarUsuarios()" id="mostrar_inactivos" name="mostrar_inactivos" value="true">
+      <i class="bi bi-eye-slash-fill"></i>&nbsp;&nbsp;&nbsp;Mostrar Inactivos
+    </a>
+  {% endif %}									  																															 
+
+  <form class="container pb-4" style="max-width: 25rem" method="post">
+    <div class="input-group">
+      <input type="search" name="userName" class="form-control" placeholder="Buscar usuarios..." aria-label="Buscar usuarios..."
+        aria-describedby="button-search" value="{{ user_name }}" />
+      <button class="btn btn-primary" type="submit" id="button-search"><i class="bi bi-search me-2"></i>Buscar</button>
+    </div>
+  </form>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+          </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <section class="container d-flex flex-wrap justify-content-center gap-3">
+    {% for user in users %}
+      <article class="card shadow-sm" style="width: 20rem">
+        <header class="card-header">{{ user.nombre }} / 
+          {% if user.sexo == "H" %}
+          <i class="bi bi-gender-male me-2" title="Hombre"></i>
+          {% elif user.sexo == "M" %}
+          <i class="bi bi-gender-female me-2" title="Mujer"></i>
+          {% elif user.sexo == "A" %}
+          <i class="bi bi-gender-ambiguous me-2" title="Ambiguo"></i>
+          {% elif user.sexo == "T" %}
+          <i class="bi bi-gender-trans me-2" title="Trans"></i>
+          {% endif %}
+        </header>
+        <section class="card-body d-flex flex-column">
+          <p class="card-text mb-1">
+            <i class="bi bi-envelope-at me-2"></i>{{ user.mail }}
+          </p>
+		  <p class="card-text mb-1">
+            <i class="bi bi-person-fill"></i>{{ user.activo }}
+          </p>						
+															  
+			  
+          {% if user.rol == "cliente" %}
+            <p class="card-text mb-1">
+              <i class="bi bi-geo-alt me-2"></i>{{ user.provincia }}
+            </p>
+            {% if user.enfermedades %}
+            <p class="card-text mb-1">
+              <i class="bi bi-file-medical me-2"></i>{{ user.enfermedades|join(', ') }}
+            </p>
+            {% endif %}
+            {% if user.dis %}
+            <p class="card-text mb-1">
+              <i class="bi bi-megaphone me-2"></i>{{ user.dis|join(', ') }}
+            </p>
+            {% endif %}
+            <p class="card-text mb-1">
+              <i class="bi bi-music-note me-2"></i>{{ user.cant_audios }}
+            </p>
+          {% endif %}
+          {% if user.entidad %}
+          <p class="card-text mb-1">
+            <i class="bi bi-shop me-2"></i>{{ user.entidad }}
+          </p>
+          {% endif %}
+          <p class="card-text mb-1">
+            <i class="bi bi-clock me-2"></i>{{ user.ultima_conexion.strftime('%d/%m/%Y - %H:%M') }}
+          </p>
+          {% if user.rol == "cliente" and logged_rol == "admin" %}
+          <p class="card-text mb-1">
+            <i class="bi bi-person-vcard me-2"></i>{{ user.parent }}
+            <a href="{{ url_for('users.update_tech',id=user._id) }}" class="bi bi-pencil-fill ms-2"></a>
+          </p>
+          {% endif %}
+          <p class = "card-text mb-3 tipo_{{ user.rol }}" >
+              <i class="bi bi-person"></i>  {{ user.rol }}
+          </p>
+          <div class="d-flex gap-2 mt-auto">
+            <a href="{{ url_for('users.update',id=user._id) }}" class="btn btn-primary align-self-start mt-auto">
+              <i class="bi bi-pencil me-2"></i>Editar
+            </a>
+            {% if user.rol == "cliente" %}
+            <a href="{{ url_for('audios.client_report', id=user._id) }}" class="btn btn-secondary align-self-start mt-auto">
+            <i class="bi bi-file-text me-2"></i>Informe
+            </a>
+            {% endif %}
+          </div>
+        </section>
+      </article>
+    {% endfor %}
+  </section>
+{% endblock %}

@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <meta name = "viewport" content = "width=device-width, minimum-scale=1.0, , user-scalable = no">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='js/usabilidad_color.js') }}"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab&display=swap" rel="stylesheet">
+ 
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='styles/style_cliente.css') }}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
+  
+  <!-- LARA v240323 -->
+  <title>PIA FP Lara</title>
+  <script>
+       document.addEventListener("DOMContentLoaded", function() {
+            // Obtener el valor de la variable de sesión 'font_size'
+            const fontSize = "{{ session['font_size'] }}em"; 
+
+            // Aplicar el tamaño de fuente al cuerpo (body)
+            document.body.style.fontSize = fontSize;
+        });
+  </script>
+</head>
+
+<body>
+  <div class="container-fluid">
+    
+    <div class="row">
+
+      <div class="col-sm-3 col-md-2 col-lg-2 col-xl-2 bg-secondary px-1">
+        <div class="m-2">
+          <button class="btn btn-secondary d-block d-sm-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+            <i class="bi bi-list"></i>
+          </button>
+        </div>
+
+        <!-- movil -->
+        <div class="offcanvas offcanvas-start text-bg-secondary" id="demo">
+          <br />
+          <a href="{{ url_for('auth.logout') }}" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <img src="{{ url_for('static',filename='img/logoLara.png') }}" class="img-fluid">
+          </a>
+          <br />
+          <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-sm-start" id="menuMobile">
+            {% if current_user.rol != "cliente" %}
+            <li><a href="{{ url_for('users.index') }}" class="d-block text-light p-3 border-0"><i class="bi bi-person-circle lead m-2"></i>Usuarios</a></li>
+            <li><a href="{{ url_for('syllabus.index') }}" class="d-block text-light p-3 border-0"><i class="bi bi-book m-2 lead"></i>Frases</a></li>
+            <li><a href="{{ url_for('audios.client_report') }}" class="d-block text-light p-3 border-0"><i class="bi bi-info-circle m-2 lead"></i>Informes</a></li>
+            {% endif %}
+            {% if current_user.rol == "cliente" %}
+            <li><a href="{{ url_for('audios.client_tag') }}" class="d-block text-light p-3 border-0 fs-5"><i class="bi bi-book m-2 lead"></i>Ver etiquetas</a></li>
+            <li><a href="{{ url_for('audios.client_text') }}" class="d-block text-light p-3 border-0 fs-5"><i class="bi bi-file-earmark-music m-2 lead"></i>Grabar mi audio</a></li>
+            <li><a href="{{ url_for('audios.client_report') }}" class="d-block text-light p-3 border-0 fs-5"><i class="bi bi-info-circle m-2 lead"></i>Informes</a></li>
+            {% endif %}
+          </ul>
+          <div class="pb-3 text-white text-decoration-none pt-5 text-center">
+            <a href="#">
+              <h6 id="user" class="text-light">{{ current_user.nombre }} / <br /><i class="bi bi-person-fill"></i> <strong>{{ current_user.rol }}</strong> </h6>
+            </a>
+
+            <div class="accessibility-bar">
+              <!-- Botones para cambiar el esquema de color -->
+              <button class="button default-scheme" onclick="changeColorScheme('contrast-default')" title="Color por defecto (Reset)" aria-label="Color por Defecto">R</button>
+              <button class="button contrast-1" onclick="changeColorScheme('contrast-1')" title="Alto Contraste 1" aria-label="Alto Contraste 1">A</button>
+              <button class="button contrast-2" onclick="changeColorScheme('contrast-2')" title="Alto Contraste 2" aria-label="Alto Contraste 2">A</button>
+              <button class="button contrast-3" onclick="changeColorScheme('contrast-3')" title="Alto Contraste 3" aria-label="Alto Contraste 3">A</button>
+              <br /><br />
+            </div>
+
+            <a href="{{ url_for('auth.logout') }}">
+              <h5 id="logout" class="text-light"><i class="bi bi-box-arrow-left"></i> Salir</h5>
+            </a>
+          </div>
+        </div>
+
+        <!--  web -->
+        <div class="d-none d-sm-block flex-column align-items-center align-items-sm-start px-3 pt-2">
+          <a href="{{ url_for('auth.logout') }}" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <img src="{{ url_for('static',filename='img/logoLara.png') }}" class="img-fluid">
+          </a>
+          <br />
+          <ul class="nav nav-pills flex-column mb-sm-auto mb-0 pb-5 align-items-center align-items-sm-start" id="menuDesktop">
+            {% if current_user.rol != "cliente" %}
+            <li><a href="{{ url_for('users.index') }}" class="d-block text-light p-3 border-0"><i class="bi bi-person-circle lead m-2"></i>Usuarios</a></li>
+            <li><a href="{{ url_for('syllabus.index') }}" class="d-block text-light p-3 border-0"><i class="bi bi-book m-2 lead"></i>Frases</a></li>
+            <li><a href="{{ url_for('audios.client_report') }}" class="d-block text-light p-3 border-0"><i class="bi bi-info-circle m-2 lead"></i>Informes</a></li>
+            {% endif %}
+            {% if current_user.rol == "cliente" %}
+            <li>
+              <ul class="nav nav-pills">
+                <li><a href="{{ url_for('audios.client_tag') }}" class="d-block text-light border-0 d-flex align-items-center gap-1 fs-5">
+                  <i class="bi bi-book m-2 lead"></i>
+                  Ver etiquetas
+                  </a>
+                  <br />
+                </li>
+                <li><a href="{{ url_for('audios.client_text') }}" class="d-block text-light border-0 d-flex align-items-center gap-1 fs-5">
+                  <i class="bi bi-file-earmark-music m-2 lead"></i>
+                  Grabar mi audio
+                </a><br /></li>
+                <li><a href="{{ url_for('audios.client_report') }}" class="d-block text-light border-0 d-flex align-items-center gap-1 fs-5"><i class="bi bi-info-circle m-2 lead"></i>Informes</a></li>
+              </ul>
+            </li>
+            {% endif %}
+          </ul>
+          <div class="pb-3 text-white text-decoration-none pt-5 text-center">
+
+            <div class="accessibility-bar">
+              <!-- Botones para cambiar el esquema de color -->
+              <button class="button default-scheme" onclick="changeColorScheme('contrast-default')" title="Color por defecto (Reset)" aria-label="Color por Defecto">R</button>
+              <button class="button contrast-1" onclick="changeColorScheme('contrast-1')" title="Alto Contraste 1" aria-label="Alto Contraste 1">A</button>
+              <button class="button contrast-2" onclick="changeColorScheme('contrast-2')" title="Alto Contraste 2" aria-label="Alto Contraste 2">A</button>
+              <button class="button contrast-3" onclick="changeColorScheme('contrast-3')" title="Alto Contraste 3" aria-label="Alto Contraste 3">A</button>
+              <br /><br />
+            </div>
+
+            <a href="{{ url_for('users.update',id=current_user.id) }}">
+              <h6 id="user" class="text-light">{{ current_user.nombre }} /<br /><i class="bi bi-person-fill"></i> <strong>{{ current_user.rol }}</strong> </h6>
+            </a>
+
+            <a href="{{ url_for('auth.logout') }}">
+              <h5 id="logout" class="text-light"><i class="bi bi-box-arrow-left"></i> Salir</h5>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-md-10 col-xl-10 px-sm-11 px-0">
+        <div id="content" class="bg-grey w-100">
+          <section class="m-3">
+            {% block content %}{% endblock %}
+          </section>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/accessibility-settings.js') }}"></script>
+  <!-- <script>
+    function filtrarUsuarios() {
+      var mostrarInactivos = document.getElementById('mostrar_inactivos').checked;
+      var url = "{{ url_for('users.index') }}?mostrar_inactivos=" + mostrarInactivos;
+      window.location.href = url;
+    }
+  </script> -->
+  
+  <script>
+    function filtrarUsuarios() {
+      var mostrarInactivos = document.getElementById('mostrar_inactivos').getAttribute('value') === 'true';
+      var url = "{{ url_for('users.index') }}?mostrar_inactivos=" + mostrarInactivos;
+      window.location.href = url;
+    }
+  </script>		   
+</body>
+</html>

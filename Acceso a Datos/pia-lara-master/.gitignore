@@ -1,0 +1,43 @@
+.DS_Store
+.env
+.flaskenv
+*.pyc
+*.pyo
+env/
+venv/
+.venv/
+env*
+dist/
+build/
+*.egg
+*.egg-info/
+.tox/
+.cache/
+.pytest_cache/
+__pycache__/
+.idea/
+docs/_build/
+.vscode
+migrations/users_vk.csv
+migrations/sylabus.csv
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+*,cover
+*.wav
+.ini
+static/.sass-cache
+
+# Migraciones
+migrations/users_gv.csv
+migrations/users_vk2324.csv
+migrations/users_vk_migration.py
+migrations/users_gv_migration.py
+migrations/users_gv2324b.csv
+migrations/users_gv2324.csv
+migrations/users_upd_pwd.py
+
+# Ruta servidor
+pialara/__init__.py
