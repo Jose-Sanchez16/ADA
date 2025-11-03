@@ -5,10 +5,10 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 
 public class Conexion {
-        private String user = "root";
-        private String passwd = "1234";
-        private String url = "jdbc:mysql://localhost:3306/tienda";
-        private Connection con; 
+        String user = "root";
+        String passwd = "1234";
+        String url = "jdbc:mysql://localhost:3306/tienda";
+        Connection con; 
 
 
         public Conexion()throws Exception{
