@@ -12,7 +12,11 @@ public class Conexion {
         // e();
         // f();
         // g();
-        h();
+        // h();
+        // i();
+        // j();
+        // k();
+        l();    
     }
 
     public static Connection con() throws Exception {
@@ -124,4 +128,55 @@ public class Conexion {
         }
     }
 
+    public static void i() throws Exception {
+        Connection conexion = con();
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery("Select count(*) as num_departamentos, AVG(presupuesto) as presupuesto_medio From DEPARTAMENTOS ;");
+
+        while (rs.next()) {
+            int n = rs.getInt(1);
+            double sal = rs.getInt(2);
+
+            System.out.println("Numero de departamentos: " + n);
+            System.out.println("Presupuesto medio: " + sal);
+        }
+    }
+
+    public static void j() throws Exception {
+        Connection conexion = con();
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery("Select count(*) as num_empleados, COUNT(DISTINCT telefono) as extensiones_distintas From EMPLEADOS Where departamento = 112;");
+
+        while (rs.next()) {
+            int n = rs.getInt(1);
+            int num = rs.getInt(2);
+
+            System.out.println("Numero de empleados: " + n);
+            System.out.println("Distintos al 112: " + num);
+        }
+    }
+
+    public static void k() throws Exception {
+        Connection conexion = con();
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery("Select numero From DEPARTAMENTOS Where numero not in (Select distinct depto_jefe From DEPARTAMENTOS Where depto_jefe is not null);");
+
+        while (rs.next()) {
+            int n = rs.getInt(1);
+
+            System.out.println("Departamentos no jefe: " + n);
+        }
+    }
+
+    public static void l() throws Exception {
+        Connection conexion = con();
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery("Select numero From DEPARTAMENTOS Where numero in (Select distinct depto_jefe From DEPARTAMENTOS Where depto_jefe is not null);");
+
+        while (rs.next()) {
+            int n = rs.getInt(1);
+
+            System.out.println("Departamentos jefe: " + n);
+        }
+    }
 }
