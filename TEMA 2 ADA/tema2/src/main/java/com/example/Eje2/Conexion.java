@@ -25,7 +25,7 @@ public class Conexion {
         String url = "jdbc:mysql://localhost:3306/Empresa";
         return DriverManager.getConnection(url, user, passwd);
     }
-
+// Hallar la comisión, el nombre y el salario de los empleados con más de tres hijos, ordenados por comisión y, dentro de comisión, alfabéticamente. 
     public static void a() throws Exception {
         Connection conexion = con();
         Statement st = conexion.createStatement();
@@ -39,7 +39,7 @@ public class Conexion {
             System.out.println("Comision: " + con + " Nombre: " + nom + " Salario: " + sal);
         }
     }
-
+// Obtener los nombres de los departamentos que no dependen de otros. 
     public static void b() throws Exception {
         Connection conexion = con();
         Statement st = conexion.createStatement();
@@ -52,6 +52,7 @@ public class Conexion {
         }
     }
 
+// Obtener, por orden alfabético, los nombres y los salarios de los empleados cuyo salario esté comprendido entre 1250 y 1300 euros.
     public static void c() throws Exception {
         Connection conexion = con();
         Statement st = conexion.createStatement();
@@ -65,6 +66,7 @@ public class Conexion {
         }
     }
 
+// Datos de los empleados que cumplen la condición anterior o tienen al menos un hijo. 
     public static void d() throws Exception {
         Connection conexion = con();
         Statement st = conexion.createStatement();
@@ -78,6 +80,7 @@ public class Conexion {
         }
     }
 
+// Obtener, por orden alfabético, los nombres de los departamentos que no contengan la palabra 'Dirección' ni 'Sector'. 
     public static void e() throws Exception {
         Connection conexion = con();
         Statement st = conexion.createStatement();
@@ -90,6 +93,7 @@ public class Conexion {
         }
     }
 
+// Obtener, por orden alfabético, los nombres de los departamentos que, o bien tienen directores en funciones y su presupuesto no excede los 5 mil euros, o bien no dependen de ningún otro departamento. 
     public static void f() throws Exception {
         Connection conexion = con();
         Statement st = conexion.createStatement();
@@ -102,6 +106,7 @@ public class Conexion {
         }
     }
 
+// Hallar, por orden de número de empleado, el nombre y el salario total (salario más comisión) de los empleados cuyo salario total supera los 1300 euros mensuales. 
     public static void g() throws Exception {
         Connection conexion = con();
         Statement st = conexion.createStatement();
@@ -116,6 +121,7 @@ public class Conexion {
         }
     }
 
+// Hallar el número de empleados de toda la empresa. 
     public static void h() throws Exception {
         Connection conexion = con();
         Statement st = conexion.createStatement();
@@ -128,6 +134,7 @@ public class Conexion {
         }
     }
 
+// Hallar cuántos departamentos existen y el presupuesto anual medio de la empresa para el global de todos los departamentos. 
     public static void i() throws Exception {
         Connection conexion = con();
         Statement st = conexion.createStatement();
@@ -142,6 +149,7 @@ public class Conexion {
         }
     }
 
+// Hallar el número de empleados y de extensiones telefónicas distintas del departamento 112. 
     public static void j() throws Exception {
         Connection conexion = con();
         Statement st = conexion.createStatement();
@@ -155,7 +163,8 @@ public class Conexion {
             System.out.println("Distintos al 112: " + num);
         }
     }
-
+    
+// Utilice las operaciones de conjuntos para extraer los códigos de los departamentos que no hacen de departamento jefe. 
     public static void k() throws Exception {
         Connection conexion = con();
         Statement st = conexion.createStatement();
@@ -168,6 +177,7 @@ public class Conexion {
         }
     }
 
+// Ídem pero que sí hacen de departamento jefe de algún otro departamento.
     public static void l() throws Exception {
         Connection conexion = con();
         Statement st = conexion.createStatement();
@@ -180,3 +190,13 @@ public class Conexion {
         }
     }
 }
+
+ 
+
+
+
+
+
+
+
+
