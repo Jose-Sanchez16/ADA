@@ -6,7 +6,7 @@
 
     <persistence-unit name="miBD">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>entidades.????</class>
+        <class>conada.entidades.Persona</class>
 
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/pruebas?createDatabaseIfNotExist=true" />
