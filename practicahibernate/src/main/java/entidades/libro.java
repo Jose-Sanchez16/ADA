@@ -1,4 +1,4 @@
-package conada.entidades;
+package entidades;
 import jakarta.persistence.*;
 
 @Entity

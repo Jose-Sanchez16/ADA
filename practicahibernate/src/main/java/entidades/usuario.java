@@ -1,15 +1,17 @@
-package conada.entidades;
+
+package entidades;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-public class prestamo {
+@Entity
+@Table(name = "usuario")
+public class usuario {
     @Id
     private int id;
     @Column(length = 30)
-    private int nombre;
+    private String nombre;
     @Column(length = 20)
     private String apellido1;
     @Column(length = 20)
@@ -17,14 +19,14 @@ public class prestamo {
     @Column(length = 20)
     private String ciudad;
     @Column(name = "categoria")
-    private float categoria;
+    private double categoria;
     @Column(name = "fehca_ingreso")
     private LocalDate fecha_ingreso;
     
-    public prestamo() {
+    public usuario() {
     }
 
-    public prestamo(int id, int nombre, String apellido1, String apellido2, String ciudad, float categoria,
+    public usuario(int id, String nombre, String apellido1, String apellido2, String ciudad, double categoria,
             LocalDate fecha_ingreso) {
         this.id = id;
         this.nombre = nombre;
@@ -43,11 +45,11 @@ public class prestamo {
         this.id = id;
     }
 
-    public int getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(int nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
@@ -75,11 +77,11 @@ public class prestamo {
         this.ciudad = ciudad;
     }
 
-    public float getCategoria() {
+    public double getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(float categoria) {
+    public void setCategoria(double categoria) {
         this.categoria = categoria;
     }
 
