@@ -2,6 +2,8 @@ package com.example.conada.entidades;
 
 import jakarta.persistence.*;
 
+@Entity
+@Table(name = "Asistencia_Conferencias")
 public class asis_confe {
     @Id
     private int id;
