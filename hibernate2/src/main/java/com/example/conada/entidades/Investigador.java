@@ -15,19 +15,15 @@ public class Investigador {
     private String nombre;
 
     @OneToMany(mappedBy = "investigador", cascade = CascadeType.ALL)
-    private List<Inv_pro> proyectos ;
-
-    @OneToMany(mappedBy = "investigador", cascade = CascadeType.ALL)
     private List<asis_confe> conferenciasAsistidas ;
 
     public Investigador() {
     }
 
-    public Investigador(int idInvestigador, String nombre, List<Inv_pro> proyectos,
+    public Investigador(int idInvestigador, String nombre,
             List<asis_confe> conferenciasAsistidas) {
         this.idInvestigador = idInvestigador;
         this.nombre = nombre;
-        this.proyectos = proyectos;
         this.conferenciasAsistidas = conferenciasAsistidas;
     }
 
@@ -47,14 +43,6 @@ public class Investigador {
         this.nombre = nombre;
     }
 
-    public List<Inv_pro> getProyectos() {
-        return proyectos;
-    }
-
-    public void setProyectos(List<Inv_pro> proyectos) {
-        this.proyectos = proyectos;
-    }
-
     public List<asis_confe> getConferenciasAsistidas() {
         return conferenciasAsistidas;
     }
@@ -65,9 +53,10 @@ public class Investigador {
 
     @Override
     public String toString() {
-        return "Investigador [idInvestigador=" + idInvestigador + ", nombre=" + nombre + ", proyectos=" + proyectos
-                + ", conferenciasAsistidas=" + conferenciasAsistidas + "]";
+        return "Investigador [idInvestigador=" + idInvestigador + ", nombre=" + nombre + ", conferenciasAsistidas="
+                + conferenciasAsistidas + "]";
     }
+
 
     
 }
