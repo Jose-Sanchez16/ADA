@@ -1,83 +1,91 @@
 package com.example.conada.entidades;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
-@Table(name = "Investigadores")
+@Table(name = "investigador")
 public class Investigador {
-
+    
     @Id
-    private int idInvestigador;
-
-    @Column(name = "nombre", nullable = false, length = 100)
-    private String nombre;
-
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-        name = "Investigadores_Proyectos",
-        joinColumns = @JoinColumn(name = "id_investigador"),
-        inverseJoinColumns = @JoinColumn(name = "id_proyecto")
-    )
-    private Set<Proyecto> proyectos = new HashSet<>();
-
-    @OneToMany(mappedBy = "investigador", cascade = CascadeType.ALL)
-    private Set<asis_confe> conferenciasAsistidas = new HashSet<>();
-
-    public Investigador() {
+    @Column(name = "dni", length = 9)
+    private String dni;
+    
+    private String nombreCompleto;
+    private String direccion;
+    private String telefono;
+    private String ciudad;
+    
+    // RELACIÓN CON PROYECTO (N:1)
+    @ManyToOne
+    @JoinColumn(name = "proyecto_id")
+    private Proyecto proyecto;
+    
+    // RELACIÓN CON CONFERENCIA a través de AsistenciaConferencia (1:N)
+    @OneToMany(mappedBy = "investigador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AsistenciaConferencia> asistencias = new ArrayList<>();
+    
+    // Constructores
+    public Investigador() {}
+    
+    public Investigador(String dni, String nombreCompleto, String direccion, String telefono, String ciudad) {
+        this.dni = dni;
+        this.nombreCompleto = nombreCompleto;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.ciudad = ciudad;
     }
-
-    public Investigador(int idInvestigador, String nombre) {
-        this.idInvestigador = idInvestigador;
-        this.nombre = nombre;
+    
+    // Métodos para gestionar asistencias
+    public void addConferencia(Conferencia conferencia) {
+        AsistenciaConferencia asistencia = new AsistenciaConferencia(this, conferencia);
+        this.asistencias.add(asistencia);
+        conferencia.getAsistencias().add(asistencia);
     }
-
-    // Getters y Setters...
-    public int getIdInvestigador() {
-        return idInvestigador;
+    
+    public void removeConferencia(Conferencia conferencia) {
+        AsistenciaConferencia asistencia = this.asistencias.stream()
+            .filter(a -> a.getConferencia().equals(conferencia))
+            .findFirst()
+            .orElse(null);
+        
+        if (asistencia != null) {
+            this.asistencias.remove(asistencia);
+            conferencia.getAsistencias().remove(asistencia);
+            asistencia.setInvestigador(null);
+            asistencia.setConferencia(null);
+        }
     }
-
-    public void setIdInvestigador(int idInvestigador) {
-        this.idInvestigador = idInvestigador;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Set<Proyecto> getProyectos() {
-        return proyectos;
-    }
-
-    public void setProyectos(Set<Proyecto> proyectos) {
-        this.proyectos = proyectos;
-    }
-
-    public Set<asis_confe> getConferenciasAsistidas() {
-        return conferenciasAsistidas;
-    }
-
-    public void setConferenciasAsistidas(Set<asis_confe> conferenciasAsistidas) {
-        this.conferenciasAsistidas = conferenciasAsistidas;
-    }
-
-    public void agregarProyecto(Proyecto proyecto) {
-        this.proyectos.add(proyecto);
-        proyecto.getInvestigadores().add(this);
-    }
-
-    public void eliminarProyecto(Proyecto proyecto) {
-        this.proyectos.remove(proyecto);
-        proyecto.getInvestigadores().remove(this);
-    }
-
-    @Override
-    public String toString() {
-        return "Investigador [idInvestigador=" + idInvestigador + ", nombre=" + nombre + "]";
+    
+    // Getters y Setters
+    public String getDni() { return dni; }
+    public void setDni(String dni) { this.dni = dni; }
+    
+    public String getNombreCompleto() { return nombreCompleto; }
+    public void setNombreCompleto(String nombreCompleto) { this.nombreCompleto = nombreCompleto; }
+    
+    public String getDireccion() { return direccion; }
+    public void setDireccion(String direccion) { this.direccion = direccion; }
+    
+    public String getTelefono() { return telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
+    
+    public String getCiudad() { return ciudad; }
+    public void setCiudad(String ciudad) { this.ciudad = ciudad; }
+    
+    public Proyecto getProyecto() { return proyecto; }
+    public void setProyecto(Proyecto proyecto) { this.proyecto = proyecto; }
+    
+    public List<AsistenciaConferencia> getAsistencias() { return asistencias; }
+    public void setAsistencias(List<AsistenciaConferencia> asistencias) { this.asistencias = asistencias; }
+    
+    // Método para obtener conferencias directamente (sin las asistencias)
+    @Transient
+    public List<Conferencia> getConferencias() {
+        List<Conferencia> conferencias = new ArrayList<>();
+        for (AsistenciaConferencia asistencia : this.asistencias) {
+            conferencias.add(asistencia.getConferencia());
+        }
+        return conferencias;
     }
 }

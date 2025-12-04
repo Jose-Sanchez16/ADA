@@ -9,8 +9,7 @@
         <class>com.example.conada.entidades.Investigador</class>
         <class>com.example.conada.entidades.Proyecto</class>
         <class>com.example.conada.entidades.Conferencia</class>
-        <class>com.example.conada.entidades.Inv_pro</class>
-        <class>com.example.conada.entidades.asis_confe</class>
+        <class>com.example.conada.entidades.AsistenciaConferencia</class>
 
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Confe?createDatabaseIfNotExist=true" />
