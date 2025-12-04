@@ -1,0 +1,45 @@
+DROP DATABASE IF EXISTS Confe;
+CREATE DATABASE Confe;
+USE Confe;
+
+-- Tabla Proyectos (PRIMERO porque Investigadores la referencia)
+CREATE TABLE proyecto (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL,
+    fecha_inicio DATE
+);
+
+-- Tabla Investigadores (con referencia a Proyecto)
+CREATE TABLE investigador (
+    dni VARCHAR(9) PRIMARY KEY,
+    nombre_completo VARCHAR(100) NOT NULL,
+    direccion VARCHAR(150),
+    telefono VARCHAR(15),
+    ciudad VARCHAR(50),
+    proyecto_id BIGINT NULL,
+    FOREIGN KEY (proyecto_id) REFERENCES proyecto(id) ON DELETE SET NULL
+);
+
+-- Tabla Conferencias
+CREATE TABLE conferencia (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL,
+    fecha DATE,
+    ciudad VARCHAR(50),
+    duracion_horas DECIMAL(3,1)
+);
+
+-- Tabla AsistenciaConferencia (tabla intermedia N:M con atributos)
+CREATE TABLE asistencia_conferencia (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    investigador_dni VARCHAR(9) NOT NULL,
+    conferencia_id BIGINT NOT NULL,
+    fecha_inscripcion DATE,
+    asistio BOOLEAN DEFAULT TRUE,
+    rol VARCHAR(50) DEFAULT 'Asistente',
+    
+    FOREIGN KEY (investigador_dni) REFERENCES investigador(dni) ON DELETE CASCADE,
+    FOREIGN KEY (conferencia_id) REFERENCES conferencia(id) ON DELETE CASCADE
+);
+
+
