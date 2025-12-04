@@ -1,7 +1,6 @@
 package com.example.conada.entidades;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.util.*;
 
@@ -46,8 +45,6 @@ public class Proyecto {
 
     @Override
     public String toString() {
-        return "Proyecto [id=" + id + ", nombre=" + nombre + ", fechaInicio=" + fechaInicio + ", investigadores="
-                + investigadores + "]";
+        return "Proyecto [id=" + id + ", nombre=" + nombre + "]";
     }
-
 }

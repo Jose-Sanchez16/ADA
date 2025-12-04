@@ -11,7 +11,9 @@ public class Investigador {
     @Column(name = "dni", length = 9)
     private String dni;
     
+    @Column(name = "nombre_completo")
     private String nombreCompleto;
+    
     private String direccion;
     private String telefono;
     private String ciudad;
@@ -35,8 +37,6 @@ public class Investigador {
         this.telefono = telefono;
         this.ciudad = ciudad;
     }
-    
-    // Métodos para gestionar asistencias
     public void addConferencia(Conferencia conferencia) {
         AsistenciaConferencia asistencia = new AsistenciaConferencia(this, conferencia);
         this.asistencias.add(asistencia);
@@ -57,7 +57,6 @@ public class Investigador {
         }
     }
     
-    // Getters y Setters
     public String getDni() { return dni; }
     public void setDni(String dni) { this.dni = dni; }
     
@@ -73,13 +72,12 @@ public class Investigador {
     public String getCiudad() { return ciudad; }
     public void setCiudad(String ciudad) { this.ciudad = ciudad; }
     
-    public Proyecto getProyecto() { return proyecto; }
-    public void setProyecto(Proyecto proyecto) { this.proyecto = proyecto; }
+    public Proyecto getProyecto() { return proyecto; } 
+    public void setProyecto(Proyecto proyecto) { this.proyecto = proyecto; } 
     
     public List<AsistenciaConferencia> getAsistencias() { return asistencias; }
     public void setAsistencias(List<AsistenciaConferencia> asistencias) { this.asistencias = asistencias; }
     
-    // Método para obtener conferencias directamente (sin las asistencias)
     @Transient
     public List<Conferencia> getConferencias() {
         List<Conferencia> conferencias = new ArrayList<>();
@@ -87,5 +85,10 @@ public class Investigador {
             conferencias.add(asistencia.getConferencia());
         }
         return conferencias;
+    }
+    
+    @Override
+    public String toString() {
+        return "Investigador [dni=" + dni + ", nombreCompleto=" + nombreCompleto + "]";
     }
 }
